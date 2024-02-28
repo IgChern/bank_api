@@ -24,11 +24,15 @@ API представляет собой простое банковское пр
     POSTGRES_HOST=<your_settings>
     POSTGRES_PORT=<your_settings>
 
-### 4. Соберите и запустите Docker контейнер:
+### 4. Соберите и запустите Docker контейнер, создайте суперпользователя:
 
     docker-compose build
 
     docker-compose up
+
+    docker ps
+
+    docker exec -it <ID_bank_api-django> python manage.py createsuperuser
 
 ### 5. Доступ к интерфейсу проекта:  
 1. [http://127.0.0.1:8000/api/](http://127.0.0.1:8000/api/) - Страница API маршрутов
@@ -40,6 +44,12 @@ API представляет собой простое банковское пр
 ### 6. Отправка GET, POST, PUT, DELETE запросов
 
 Вы можете использовать Postman для отправки запросов по адресам.  
+Для этого вам нужно подключить токен:
+- Зайдите в админ панель по адресу  
+[http://127.0.0.1:8000/admin](http://127.0.0.1:8000/admin)
+- Перейдите в раздел Tokens и скопируйте токен аутентификации
+- В Postman добавьте новое поле раздела Headers (Key=Authorization, Value=Token <ваш токен>). Обратите внимание, что между словом "Token" и самим токеном должен быть пробел.
+- Перейдите в раздел Body->raw
 1. [http://127.0.0.1:8000/api/customer/](http://127.0.0.1:8000/api/customer/)  
 GET(получить список клиентов)  
 POST(зарегистрировать клиента, указать имя клиента)  
@@ -78,6 +88,6 @@ GET(получить информацию по транзакции)
     docker exec -it <ID_bank_api-django> coverage run manage.py test
     docker exec -it <ID_bank_api-django> coverage report - результат покрытия тестами
 
-### 7. Остановка Docker контейнера:
+### 8. Остановка Docker контейнера:
 
     docker-compose down
